@@ -1,6 +1,6 @@
 function [az, ax, H, orientation, location, isUsed, model, planePc, pc_new] = getGroundPlaneFromPointCloud( pc )
-%getGroundPlaneFromPointCloud ¸ù¾ÝÈýÎ¬µãÔÆ¹À¼Æ³öµØÆ½ÃæºÍÏà»úµÄÍâ²ÎÊý
-%   pc:     ÈýÎ¬µãÔÆ
+%getGroundPlaneFromPointCloud ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Æ³ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+%   pc:     ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
 
 maxDistance = 1;
 referenceVector = [0,0,1];
@@ -11,25 +11,33 @@ isContinue = true;
 isUsed = true;
 
 remainPtCloud = pc;
+invalidTform = affine3d;
 while isContinue
-    % ¹À¼ÆÆ½ÃæÄ£ÐÍ
+    % ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½Ä£ï¿½ï¿½
     [model,inlierIndices,outlierIndices] = pcfitplane(remainPtCloud, maxDistance,referenceVector,maxAngularDistance);
+    model
+    
     planePc = select(pc,inlierIndices);
     remainPtCloud = select(pc,outlierIndices);
     if remainPtCloud.Count < pc.Count*delta
         isUsed = false;
         break;
     end
-     tform = getExternalParameterFromPointCloud(model);    % ¸ù¾ÝÆ½Ãæ·¨ÏòÁ¿»ñÈ¡Ïà»úµÄÍâ²Î
-     pc_new = pctransform(pc, tform);                      % ½«µãÔÆ×ª»»ÎªÊÀ½ç×ø±êÏµÏÂµÄµãÔÆ
+     tform = getExternalParameterFromPointCloud(model);    % ï¿½ï¿½ï¿½ï¿½Æ½ï¿½æ·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     if isequal(tform.T, invalidTform.T)
+         H = 0; az = 0; ax = 0; orientation=0; location=0; pc_new=0;
+         isUsed = false;
+         break;
+     end
+     pc_new = pctransform(pc, tform);                      % ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ÂµÄµï¿½ï¿½ï¿½
     
-    orientation = tform.T(1:3, 1:3);                       % »ñÈ¡Ðý×ª¾ØÕó
-    location = tform.T(4, 1:3);                            % »ñÈ¡Æ½ÒÆ¾ØÕó
+    orientation = tform.T(1:3, 1:3);                       % ï¿½ï¿½È¡ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½
+    location = tform.T(4, 1:3);                            % ï¿½ï¿½È¡Æ½ï¿½Æ¾ï¿½ï¿½ï¿½
     
     [az, ax] = getCameraAngle(orientation);
     H = location(3);
     
-    %¼ÆËãÏà»úÍâ²ÎÊý
+    %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     tformC2W = invert(tform);
     pc_remain_world = pctransform(remainPtCloud, tformC2W);
     pc_plane_world = pctransform(planePc, tformC2W);
@@ -39,11 +47,11 @@ end
 end
 
 function [isFinish] = judgeTheCondition(az, pc_world, pc_plane)
-% judgeTheCondition: ÅÐ¶Ïµ±Ç°Æ½ÃæÊÇ·ñÂú×ãÒªÇó£¬¹²Á½¸öÌõ¼þ£¬ZÖáÓëÆ½Ãæ¼Ð½ÇÐ¡ÓÚ45¶È &&
-% Æ½ÃæÉÏµÄµãZÖµµÄÖÐÎ»Êý±ÈÊ£ÓàµãµÄÉÏËÄ·ÖÎ»Êý´ó
-% pc_world: ³ýÈ¥Æ½ÃæÉÏµÄµãµÄÊ£Óàµã
-% pc_plane: Æ½ÃæÉÏµÄµã
-% ·µ»ØÖµ£¬Èç¹ûÂú×ãÉÏÃæÁ½¸öÌõ¼þ£¬isFinish = true£¬ ·ñÔò isFinish=false
+% judgeTheCondition: ï¿½Ð¶Ïµï¿½Ç°Æ½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ó£¬¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½Ð½ï¿½Ð¡ï¿½ï¿½45ï¿½ï¿½ &&
+% Æ½ï¿½ï¿½ï¿½ÏµÄµï¿½ZÖµï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Î»ï¿½ï¿½ï¿½ï¿½
+% pc_world: ï¿½ï¿½È¥Æ½ï¿½ï¿½ï¿½ÏµÄµï¿½ï¿½Ê£ï¿½ï¿½ï¿½
+% pc_plane: Æ½ï¿½ï¿½ï¿½ÏµÄµï¿½
+% ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½isFinish = trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ isFinish=false
 
 if pc_world.Count == 0 || pc_plane.Count == 0
     isFinish = true;
@@ -55,7 +63,7 @@ if abs(az) > pi / 4
     return ;
 end
 
-%Í³¼Æpc_plane µÄZÖµµÄÖÐÎ»Êý
+%Í³ï¿½ï¿½pc_plane ï¿½ï¿½ZÖµï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 word_point_z = prctile(pc_world.Location(:, 3), 50);
 plane_point_z = median(pc_plane.Location(:, 3));
 if(plane_point_z < word_point_z)
@@ -87,21 +95,31 @@ H = param(4);
 
 % get world axis in camera coordinate
 oc = [0 0 0]';
-ow = getProjectedPoint(oc, model); % »ñµÃÏà»ú×ø±êÏµÔ­µãÔÚÆ½ÃæÉÏµÄÍ¶Ó°
+ow = getProjectedPoint(oc, model); % ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÔ­ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Ïµï¿½Í¶Ó°
 zc = [0 0 1]';
-yw = getProjectedPoint(zc, model) - ow; %»ñÈ¡Ïò×ø±êZÖáÔÚÆ½ÃæÉÏµÄÍ¶Ó°
+yw = getProjectedPoint(zc, model) - ow; %ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Ïµï¿½Í¶Ó°
+
+if norm(yw) == 0
+    tform = affine3d;
+    return ;
+end
+
 yw = yw/norm(yw);
 
 zw = ow  - oc;
 zw = zw / norm(zw);
 
-xw = cross(yw,zw);  % ¸ù¾ÝÊÀ½ç×ø±êµã»ñÈ¡
+xw= cross(yw,zw);  % ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡
 
 % world coordinate points to camera coordinate points
 R = [xw yw zw];
 T = -ow'*R;
 R =  translate2RigidMatrix(R);
 %camera coordinate points to world coordinate points
+if sum(sum(isnan(R))) > 0
+    tform = affine3d;
+    return ;
+end
 tform = affine3d([R zeros(3, 1);T  1]);
 end
 
