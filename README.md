@@ -1,9 +1,18 @@
-# RGB-D Ïà»úµÄÉî¶È´«¸ĞÆ÷µÄ×ËÊÆ¹À¼Æ
-## ÔËĞĞ»·¾³ÒªÇó
-- MATLAB R2016¼°ÒÔÉÏ
-- ÄÜ¹»´ò¿ª mj2 ÀàĞÍµÄÊÓÆµ
+# RGB-D ç›¸æœºçš„æ·±åº¦ä¼ æ„Ÿå™¨çš„å§¿åŠ¿ä¼°è®¡
+## è¿è¡Œç¯å¢ƒè¦æ±‚
+- MATLAB R2016åŠä»¥ä¸Š
+- èƒ½å¤Ÿæ‰“å¼€ mj2 ç±»å‹çš„è§†é¢‘
 
-## ÔËĞĞËµÃ÷
-- ´Ó [ÊÓÆµ´æ·ÅÍøÖ·](https://pan.baidu.com/s/1pLeAog7) ÏÂÔØÊÓÆµ£¬½«"color.avi"ºÍ"depth.mj2"·ÅÖÁ¸ùÄ¿Â¼
-- ½øÈë¸ùÄ¿Â¼
-- Ö±½ÓÔÚMatlaÃüÁîĞĞ´°¿ÚÊäÈë main ÃüÁî£¬°´»Ø³µ¼´¿É
+## è¿è¡Œè¯´æ˜
+- ä» [è§†é¢‘å­˜æ”¾ç½‘å€](https://pan.baidu.com/s/1pLeAog7) ä¸‹è½½è§†é¢‘ï¼Œå°†"color.avi"å’Œ"depth.mj2"æ”¾è‡³æ ¹ç›®å½•
+- è¿›å…¥æ ¹ç›®å½•
+- ç›´æ¥åœ¨Matlaå‘½ä»¤è¡Œçª—å£è¾“å…¥ main å‘½ä»¤ï¼ŒæŒ‰å›è½¦å³å¯
+
+## Cite
+If you use this method or inspired by this method, please cite the paper:
+
+### English version
+- Sun S J, Song H S, Zhang C Y, Zhang W T, Wang X	. Automatic extrinsic calibration for RGB-D camera based on ground plane detection in point cloud[J]. Journal of Image and Graphics, 2018, 23(6): 866-873.
+
+### Chinese version
+- [å­™å£«æ°, å®‹ç„•ç”Ÿ, å¼ æœé˜³, å¼ æ–‡æ¶›, ç‹ç’‡. ç‚¹äº‘ä¸‹åœ°å¹³é¢æ£€æµ‹çš„RGB-Dç›¸æœºå¤–å‚è‡ªåŠ¨æ ‡å®š[J]. ä¸­å›½å›¾è±¡å›¾å½¢å­¦æŠ¥, 2018, 23(6): 866-873.][DOI: 10.11834/jig.170490]
