@@ -9,7 +9,7 @@
 - run "main"
 
 ## Cite
-If you use this method or inspired by this method, please cite the [paper](./doc/paper.pdf):
+If you use this method or inspired by this method, please cite the [paper](./result/paper.pdf):
 
 ### English version
 - Sun S J, Song H S, Zhang C Y, Zhang W T, Wang X	. Automatic extrinsic calibration for RGB-D camera based on ground plane detection in point cloud[J]. Journal of Image and Graphics, 2018, 23(6): 866-873.
