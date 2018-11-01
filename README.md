@@ -14,7 +14,7 @@ Automatically detect the ground plane, build the world coordinate  and estimate 
 
 ## Result
 
-![](./result/result.jpg)
+![](./result/result.gif)
 
 > Our method can automatically detect the ground plane. Based the detected plane, we build a world coordinate and estimate the extrinsic parameters of the RGB-D camera.
 
