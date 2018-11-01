@@ -1,10 +1,9 @@
 # RGB-D Camera extrinsic parameter automatically calibration
 ## Purpose
-
 Automatically detect the ground plane, build the world coordinate  and estimate the extrinsic parameter of the moving camera.
 
-## Rquirement
 
+## Rquirement
 - MATLAB R2016 or newer
 - have mj2 decoder (support mj2 video)
 
